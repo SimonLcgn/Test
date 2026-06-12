@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kassenbon Scanner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📸 Kassenbon Scanner</h1>
+            <p>Fotografiere Kassenbons und erfasse die Daten automatisch</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📷</div>
+                    <h2>Foto hochladen</h2>
+                    <p>Klicke hier oder ziehe ein Bild rein</p>
+                    <input type="file" id="photoInput" accept="image/*" hidden>
+                </div>
+            </section>
+
+            <section class="form-section" id="formSection" style="display: none;">
+                <h2>Kassenbon Daten</h2>
+                <form id="bonForm">
+                    <div class="form-group">
+                        <label for="datum">Datum:</label>
+                        <input type="date" id="datum" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aussteller">Aussteller:</label>
+                        <input type="text" id="aussteller" placeholder="z.B. REWE, Edeka..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bonnummer">Kassenbonnummer:</label>
+                        <input type="text" id="bonnummer" placeholder="z.B. 12345" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gesamtbetrag">Gesamtbetrag (Brutto):</label>
+                        <input type="number" id="gesamtbetrag" step="0.01" placeholder="z.B. 25,50" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Abbrechen</button>
+                </form>
+            </section>
+
+            <section class="table-section">
+                <h2>Erfasste Kassenbons</h2>
+                <table id="bonTable">
+                    <thead>
+                        <tr>
+                            <th>Lfd. Nr.</th>
+                            <th>Datum</th>
+                            <th>Aussteller</th>
+                            <th>Bonnummer</th>
+                            <th>Gesamtbetrag (€)</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bonTableBody">
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4"><strong>Gesamtsumme:</strong></td>
+                            <td><strong id="totalAmount">0,00</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <section class="preview-section" id="previewSection" style="display: none;">
+                <h3>Foto Vorschau</h3>
+                <img id="previewImage" alt="Foto Vorschau">
+            </section>
+
+            <section class="button-section">
+                <button class="btn btn-success" onclick="exportToCSV()">📊 Als CSV exportieren</button>
+                <button class="btn btn-danger" onclick="clearAllData()">🗑️ Alle Daten löschen</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
