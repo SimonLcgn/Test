@@ -93,9 +93,13 @@ function resetForm() {
     photoInput.value = '';
 }
 
-// Tabelle aktualisieren
+// Tabelle aktualisieren mit chronologischer Sortierung
 function updateTable() {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    
+    // Daten chronologisch aufsteigend nach Datum sortieren
+    data.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+    
     const tbody = document.getElementById('bonTableBody');
     tbody.innerHTML = '';
 
@@ -139,6 +143,10 @@ function updateTable() {
 function deleteEntry(index) {
     if (confirm('Diesen Kassenbon wirklich löschen?')) {
         let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        
+        // Nach Datum sortieren um Index richtig zu finden
+        data.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+        
         data.splice(index, 1);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         updateTable();
@@ -157,12 +165,15 @@ function clearAllData() {
 
 // CSV Export
 function exportToCSV() {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     
     if (data.length === 0) {
         alert('Es gibt keine Daten zum Exportieren!');
         return;
     }
+
+    // Daten chronologisch aufsteigend nach Datum sortieren
+    data.sort((a, b) => new Date(a.datum) - new Date(b.datum));
 
     let csv = 'Lfd. Nr.,Datum,Aussteller,Bonnummer,Gesamtbetrag (€)\n';
     
